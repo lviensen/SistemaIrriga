@@ -37,7 +37,7 @@
                 <div class="container" >
                     <div class="section">
                         <div class="nav-wrapper">
-                            <h4 class="brand-logo center">Cadastro de Dados</h4>
+                            <h4 class="brand-logo center">Alteração de Dados</h4>
                         </div>
                     </div>
                     <div class="z-depth-1 grey lighten-4 row">
@@ -46,34 +46,38 @@
                                 <div class='col s12'>
                                 </div>
                             </div>
-                            <input type="hidden" name="operacao" value="incluir"/>
+                            <input type="hidden" name="operacao" value="alterar"/>
+                            <input type="hidden" name="id" value="<?php echo $_POST['id']; ?>">
                             <div class="row">
                                 <div class="col s2"></div>
-                                <div class="input-field col s12 m6 l8 ">
-                                    <select name="estacao_id" required="required">
-                                        <option value="" disabled selected>Estação</option>
-                                            <?php
-                                                include "../dao/Estacoes.php";
-                                                $estacoes = new Estacoes;
-                                                $resultado = $estacoes->mostrarEstacoes();
-                                                if($resultado){
-                                                    while($linha=mysqli_fetch_assoc($resultado)){
-                                                        $nome=$linha['nome']; 
-                                                        $estacao_id=$linha['id'];?>
-                                                            <option value="<?php echo $estacao_id ?>"><?php echo $nome; ?></option>
-                                                        <?php
-                                                    }
-                                                }
-                                            ?>    
-                                    </select>                                            
+                                <div class="input-field col s12 m6 l8">
+                                    <i class="material-icons prefix">location_on</i>
+                                    <input id="nome" type="text" class="validate" name="nome" required="required" value="<?php echo $_POST['nome'] ?>" >
+                                    <label for="icon_prefix">Estação</label>
                                 </div>
-                            <div class="col s2"></div>
-                            </div> 
+                                <div class="col s2"></div>
+                            </div>
+                            <?php
+                                include "../dao/Dados.php";
+                                
+                                $dados = new Dados;
+                                $resultado = $dados->mostrarDadosAlterar($_POST['id']);
+                                
+                                if($resultado){
+                                    while($linha=mysqli_fetch_assoc($resultado)){
+                                        $id = $linha['id'];
+                                        $temperatura = $linha['temperatura'];
+                                        $velocidade_vento = $linha['velocidade_vento'];
+                                        $umidade = $linha['umidade'];
+                                    }
+                                }
+
+                            ?> 
                             <div class="row">
                                 <div class="col s2"></div>
                                 <div class="input-field col s12 m6 l8">
                                     <i class="material-icons prefix">blur_on</i>
-                                    <input id="temperatura" type="number" class="validate" name="temperatura" required="required">
+                                    <input id="temperatura" type="number" class="validate" name="temperatura" required="required" value="<?php echo $temperatura ?>">
                                     <label for="icon_prefix">Temperatura</label>
                                 </div>
                                 <div class="col s2"></div>
@@ -82,7 +86,7 @@
                                 <div class="col s2"></div>
                                 <div class="input-field col s12 m6 l8 ">
                                     <i class="material-icons prefix">beach_access</i>
-                                    <input id="velocidade_vento" type="number" class="validate" name="velocidade_vento" required="required">
+                                    <input id="velocidade_vento" type="number" class="validate" name="velocidade_vento" required="required" value="<?php echo $velocidade_vento ?>">
                                     <label for="icon_telephone">Velociade do Vento</label>
                                 </div>
                             <div class="col s2"></div>
@@ -91,7 +95,7 @@
                                 <div class="col s2"></div>
                                 <div class="input-field col s12 m6 l8 ">
                                     <i class="material-icons prefix">ac_unit</i>
-                                    <input id="umidade" type="number" class="validate" name="umidade" required="required">
+                                    <input id="umidade" type="number" class="validate" name="umidade" required="required" value="<?php echo $umidade ?>">
                                     <label for="icon_telephone">Umidade</label>
                                 </div>
                             <div class="col s2"></div>
@@ -99,11 +103,22 @@
                             <center>                                
                                 <div class='row'>
                                     <div class="col s2 offset-s5">
-                                        <button type='submit' name='incluir' name="incluir" class='col s12 btn btn-small waves-effect waves-light btn'>Cadastrar</button>   
+                                        <button type='submit' name='alterar' name="alterar" class='col s12 btn btn-small waves-effect waves-light btn'>Alterar</button>   
                                     </div>                                   
                                 </div>
                             </center>                                                                                                                     
                         </form>
+                        <div class='divider'></div>
+                          <form method='post' action='../controller/controla.php'>
+                            <input type='hidden' name='operacao' value='excluir'/>  
+                            <input type='hidden' name='id' value="<?php echo $_POST['id'] ?>">
+                            <div class='col-md-4'>    
+                              <button class='btn waves-effect waves-light red' type='submit' name='action'>Excluir aula
+                                <i class='material-icons right'>delete</i>
+                              </button>
+                            </div>  
+                          </form>
+                        </div> 
                     </div>
                 </div>
             </center>

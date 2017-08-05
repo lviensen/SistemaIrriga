@@ -43,72 +43,30 @@
 				elseif ($operacao == "alterar"){
 					$id = $_POST["id"];
 					$nome = $_POST["nome"];
-					$cidade = $_POST["cidade"];
-					$email = $_POST["email"];
-					$senha = $_POST["senha"];
-					$descricao = $_POST["descricao"];
+					$temperatura = $_POST["temperatura"];
+					$velocidade_vento = $_POST["velocidade_vento"];
+					$umidade = $_POST["umidade"];
 					
-					$u = new Usuario;
+					$dados = new Dados;
 					
-					$u->id = $id;
-					$u->nome = $nome;
-					$u->cidade = $cidade;
-					$u->email = $email;
-					$u->senha = $senha;
-					$u->descricao = $descricao;
-					$u->atualizarUsuarioProfessor();
-					
-					$_SESSION['mensagem']='Usuário alterado com sucesso';
-					$_SESSION['local']='perfil.php';
-					$_SESSION['nome'] = $nome;
-					$_SESSION['cidade'] = $cidade;
-					$_SESSION['email'] = $email;
-					$_SESSION['senha'] = $senha;
-					$_SESSION['descricao'] = $descricao;
+					$dados->id = $id;
+					$dados->nome = $nome;
+					$dados->temperatura = $temperatura;
+					$dados->velocidade_vento = $velocidade_vento;
+					$dados->umidade = $umidade;
+					$dados->atualizarDados($id);
+
 
 					$_SESSION['mensagem']='Dados alterados com sucesso!!';
 					$_SESSION['verificador']='SIM';
-					echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../views/perfil.php'>";					
+					echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../views/dados.php'>";					
 				}
-				elseif ($operacao == "cadastrarProfInst") { 
-					$idProf = $_POST["idProf"];
-					$idInst = $_POST["idInst"];	
-					$user->idInst = $idInst;
-					$user->idProf = $idProf;
+				elseif ($operacao == "excluir") {
+					$id = $_POST['id'];
+					$dados->excluir($id);
 
-					$user->inserirProfInst();
-					
-					$_SESSION['mensagem']='Cadastro realizado com sucesso!';
-					$_SESSION['verificador']='SIM';
-					echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../views/home.php'>";
-						
-				}
-				elseif ($operacao == "cadastroAlunoInstrumentoProfessor") {
-					$idAlu = $_POST['idAlu'];
-					$idProf = $_POST['idProf'];
-					$idInst = $_POST['idInst'];
-
-					$user->idAlu = $idAlu;
-					$user->idProf = $idProf;
-					$user->idInst = $idInst;
-
-					$user->inserirAlunoInstrumentoProfessor();
-					$_SESSION['mensagem']='Matrícula realizada com sucesso!';
-					$_SESSION['verificador']='SIM';					
-					echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../views/homeAluno.php'>";				
-				}
-				elseif ($operacao == "avaliar") {
-
-					$idMatri = $_POST['idMatri'];
-					$nota = $_POST['nota'];
-
-					$user->idMatri = $idMatri;
-					$user->nota = $nota;
-
-					$user->avaliar();
-
-					echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../views/homeAluno.php'>";
-				}
+					echo "<META HTTP-EQUIV='REFRESH' CONTENT='0; URL=../views/dados.php'>";
+				}	
 			?>
 		</div>
 	</body>	
